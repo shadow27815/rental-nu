@@ -1,0 +1,14 @@
+# Ignore node_modules folder in both client and server
+node_modules/
+client/node_modules/
+server/node_modules/
+
+# Ignore build folder (for React projects)
+build/
+
+# Ignore dist folder (if applicable)
+dist/
+
+# Ignore logs and other temporary files
+*.log
+.env
