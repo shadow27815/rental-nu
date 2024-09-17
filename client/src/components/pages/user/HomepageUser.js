@@ -21,9 +21,11 @@ const HomepageUser = () => {
   const handleResetFilters = () => setFilter({ price: null, location: null, status: null });
 
   const carouselItems = [
-    { image: '/assets/ocen1.jpg', title: 'พื้นที่ยอดนิยม 1' },
-    { image: '/assets/ocen2.jpg', title: 'พื้นที่ยอดนิยม 2' },
-    { image: '/assets/ocen3.jpg', title: 'พื้นที่ยอดนิยม 3' },
+    { image: '/assets/ocen1.jpg', title: 'ข่าวประชาสัมพันธ์ 1' },
+    { image: '/assets/ocen2.jpg', title: 'ข่าวประชาสัมพันธ์ 2' },
+    { image: '/assets/ocen3.jpg', title: 'ข่าวประชาสัมพันธ์ 3' },
+    { image: '/assets/ocen4.jpg', title: 'ข่าวประชาสัมพันธ์ 4' },
+    { image: '/assets/ocen5.jpg', title: 'ข่าวประชาสัมพันธ์ 5' },
   ];
 
   return (
@@ -49,7 +51,7 @@ const HomepageUser = () => {
 
       {/* Carousel */}
       <Container maxWidth="lg" sx={{ paddingTop: '40px', paddingBottom: '40px' }}>
-        <Typography variant="h4" align="center" sx={{ color: '#333' }}>พื้นที่ยอดนิยม</Typography>
+        <Typography variant="h4" align="center" sx={{ color: '#333' }}>ข่าวประชาสัมพันธ์</Typography>
         <Carousel NextIcon={<ArrowForwardIosIcon />} PrevIcon={<ArrowBackIosIcon />}>
           {carouselItems.map((item, i) => (
             <Box key={i} sx={{ textAlign: 'center' }}>

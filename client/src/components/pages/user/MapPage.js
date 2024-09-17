@@ -30,10 +30,10 @@ const MapPage = () => {
                 <Marker position={[16.737458695318733, 100.19891968569895]}>
                     <Popup>
                         <img
-                            src="/assets/nu111.jpg"
+                            src="/assets/nusq.jpg"
                             style={{ width: "100%", height: "auto", marginBottom: "10px" }}
                         />
-                        <strong>โรงอาหารหอใน</strong><br />
+                        <strong>NUSQUARE</strong><br />
                         <button
                             onClick={handleNavigate}
                             style={{
