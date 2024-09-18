@@ -21,11 +21,11 @@ const HomepageUser = () => {
   const handleResetFilters = () => setFilter({ price: null, location: null, status: null });
 
   const carouselItems = [
-    { image: '/assets/ocen1.jpg', title: 'ข่าวประชาสัมพันธ์ 1' },
-    { image: '/assets/ocen2.jpg', title: 'ข่าวประชาสัมพันธ์ 2' },
-    { image: '/assets/ocen3.jpg', title: 'ข่าวประชาสัมพันธ์ 3' },
-    { image: '/assets/ocen4.jpg', title: 'ข่าวประชาสัมพันธ์ 4' },
-    { image: '/assets/ocen5.jpg', title: 'ข่าวประชาสัมพันธ์ 5' },
+    { image: '/assets/nu14.png', title: 'ข่าวประชาสัมพันธ์ 1' },
+    { image: '/assets/nu15.png', title: 'ข่าวประชาสัมพันธ์ 2' },
+    { image: '/assets/nu16.png', title: 'ข่าวประชาสัมพันธ์ 3' },
+    { image: '/assets/nu16.jpg', title: 'ข่าวประชาสัมพันธ์ 4' },
+    { image: '/assets/nu17.png', title: 'ข่าวประชาสัมพันธ์ 5' },
   ];
 
   return (
@@ -33,7 +33,7 @@ const HomepageUser = () => {
       {/* Hero Section */}
       <Box
         sx={{
-          backgroundImage: 'url(/assets/hotel2.jpg)',
+          backgroundImage: 'url(/assets/nu13.jpg)',
           backgroundSize: 'cover',
           backgroundPosition: 'center',
           padding: '80px 0',

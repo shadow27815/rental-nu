@@ -33,7 +33,7 @@ const MapPage = () => {
                             src="/assets/nusq.jpg"
                             style={{ width: "100%", height: "auto", marginBottom: "10px" }}
                         />
-                        <strong>NUSQUARE</strong><br />
+                        <strong>ศูนย์อาหาร NU SQUARE</strong><br />
                         <button
                             onClick={handleNavigate}
                             style={{
