@@ -1,22 +1,22 @@
 import { createSelector } from 'reselect';
 
-// Selector to get the user state
+// Selector สำหรับดึงข้อมูลสถานะของผู้ใช้จาก Redux store
 const selectUserState = (state) => state.user;
 
-// Memoized selector to get user data
+// ตัวเลือกแบบแคชสำหรับดึงข้อมูลผู้ใช้ (user data)
 export const selectUserData = createSelector(
-    [selectUserState],
-    (userState) => userState.data
+    [selectUserState], // ใช้ selectUserState เป็น input
+    (userState) => userState.data // ดึงข้อมูลจาก userState.data
 );
 
-// Memoized selector to get user role
+// ตัวเลือกแบบแคชสำหรับดึงบทบาทของผู้ใช้ (user role)
 export const selectUserRole = createSelector(
-    [selectUserState],
-    (userState) => userState.role
+    [selectUserState], // ใช้ selectUserState เป็น input
+    (userState) => userState.role // ดึงข้อมูลบทบาทผู้ใช้จาก userState.role
 );
 
-// Memoized selector to check if the user has admin privileges
+// ตัวเลือกแบบแคชสำหรับตรวจสอบว่าผู้ใช้เป็น Admin หรือไม่
 export const selectIsAdmin = createSelector(
-    [selectUserState],
-    (userState) => userState.role === 'admin'
+    [selectUserState], // ใช้ selectUserState เป็น input
+    (userState) => userState.role === 'admin' // ตรวจสอบบทบาทว่าเป็น 'admin' หรือไม่
 );

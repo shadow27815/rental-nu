@@ -16,6 +16,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { logout, login } from "../store/userSlice";
 import { currentUser } from "../functions/auth";
 
+// รายการของเมนูในหน้าแอป
 const pages = [
   {
     title: "หน้าแผนที่",
@@ -35,6 +36,7 @@ const pages = [
   },
 ];
 
+// รายการของเมนูสำหรับการเข้าสู่ระบบ/สมัครสมาชิก
 const authen = [
   {
     title: "สมัครสมาชิก",
@@ -46,6 +48,7 @@ const authen = [
   },
 ];
 
+// เมนูการตั้งค่าของผู้ใช้เมื่อเข้าสู่ระบบแล้ว
 const settings = [
   {
     title: "ออกจากระบบ",
@@ -54,15 +57,17 @@ const settings = [
 ];
 
 function ResponsiveAppBar() {
-  const { user } = useSelector((state) => state.user);
-  const dispatch = useDispatch();
-  const navigate = useNavigate();
+  const { user } = useSelector((state) => state.user); // ดึงข้อมูลผู้ใช้จาก Redux store
+  const dispatch = useDispatch(); // สร้างฟังก์ชัน dispatch สำหรับส่ง action ไปยัง Redux
+  const navigate = useNavigate(); // ใช้เพื่อเปลี่ยนเส้นทางไปยังหน้าต่างๆ
 
-  const memoizedUser = useMemo(() => user, [user]);
+  const memoizedUser = useMemo(() => user, [user]); // แคชข้อมูลผู้ใช้เพื่อเพิ่มประสิทธิภาพ
 
+  // ดึงโทเค็นจาก localStorage เพื่อเช็คสถานะการเข้าสู่ระบบ
   useEffect(() => {
-    const idToken = localStorage.getItem("token");
+    const idToken = localStorage.getItem("token"); // ดึงโทเค็นจาก localStorage
     if (idToken) {
+      // ตรวจสอบโทเค็นและดึงข้อมูลผู้ใช้
       currentUser(idToken)
         .then((res) => {
           dispatch(
@@ -73,37 +78,43 @@ function ResponsiveAppBar() {
             })
           );
         })
-        .catch((err) => console.log(err));
+        .catch((err) => console.log(err)); // แสดงข้อผิดพลาดถ้ามี
     }
   }, [dispatch]);
 
+  // ฟังก์ชันออกจากระบบ
   const handleLogout = () => {
-    dispatch(logout());
-    handleCloseUserMenu();
-    navigate("/");
+    dispatch(logout()); // ส่ง action logout เพื่อออกจากระบบ
+    handleCloseUserMenu(); // ปิดเมนูผู้ใช้
+    navigate("/"); // เปลี่ยนหน้าไปยังหน้าหลัก
   };
 
-  const [anchorElNav, setAnchorElNav] = useState(null);
-  const [anchorElUser, setAnchorElUser] = useState(null);
+  const [anchorElNav, setAnchorElNav] = useState(null); // สถานะของเมนูนำทาง
+  const [anchorElUser, setAnchorElUser] = useState(null); // สถานะของเมนูผู้ใช้
 
+  // เปิดเมนูนำทาง
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);
   };
 
+  // เปิดเมนูผู้ใช้
   const handleOpenUserMenu = (event) => {
     setAnchorElUser(event.currentTarget);
   };
 
+  // ปิดเมนูนำทาง
   const handleCloseNavMenu = () => {
     setAnchorElNav(null);
   };
 
+  // ปิดเมนูผู้ใช้
   const handleCloseUserMenu = () => {
     setAnchorElUser(null);
   };
 
+  // ฟังก์ชันจัดการเมื่อคลิกโลโก้
   const handleLogoClick = () => {
-    navigate('/user/index');
+    navigate('/user/index'); // นำทางไปยังหน้า user index
   };
 
   return (
@@ -115,12 +126,12 @@ function ResponsiveAppBar() {
             <Avatar
               alt="NU Logo"
               src="https://www.nu.ac.th/wp-content/uploads/2023/09/NULOGO-Download.png"
-              sx={{ width: 40, height: 40 }}
+              sx={{ width: 40, height: 40 }} // ตั้งขนาดโลโก้
             />
           </IconButton>
           {/* /LOGO */}
 
-          {/* Minimize Menu */}
+          {/* Minimize Menu สำหรับจอเล็ก */}
           <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" }, justifyContent: "flex-end" }}>
             <IconButton
               size="large"
@@ -148,7 +159,7 @@ function ResponsiveAppBar() {
               open={Boolean(anchorElNav)}
               onClose={handleCloseNavMenu}
               sx={{
-                display: { xs: "block", md: "none" },
+                display: { xs: "block", md: "none" }, // แสดงเฉพาะบนหน้าจอขนาดเล็ก
               }}
             >
               {pages.map((page, index) => (
@@ -162,7 +173,7 @@ function ResponsiveAppBar() {
           </Box>
           {/* /Minimize Menu */}
 
-          {/* Menu Left Full */}
+          {/* เมนูเต็มรูปแบบสำหรับหน้าจอขนาดใหญ่ */}
           <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" }, justifyContent: "center" }}>
             {pages.map((page, index) => (
               <Link to={page.to} key={index} style={{ textDecoration: "none", color: "#555555", margin: "0 20px" }}>
@@ -176,15 +187,15 @@ function ResponsiveAppBar() {
               </Link>
             ))}
           </Box>
-          {/* /Menu Left Full */}
+          {/* /เมนูเต็มรูปแบบ */}
 
-          {/* User Menu */}
+          {/* เมนูผู้ใช้ */}
           <Box sx={{ flexGrow: 0 }}>
             <Tooltip title="Open settings">
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
                 <Avatar
                   alt="User Avatar"
-                  src="https://icons.veryicon.com/png/o/miscellaneous/linear-icon-45/hamburger-menu-4.png"
+                  src="https://icons.veryicon.com/png/o/miscellaneous/linear-icon-45/hamburger-menu-4.png" // ไอคอนเมนูผู้ใช้
                   sx={{ width: 40, height: 40 }}
                 />
               </IconButton>
@@ -205,6 +216,7 @@ function ResponsiveAppBar() {
               open={Boolean(anchorElUser)}
               onClose={handleCloseUserMenu}
             >
+              {/* ถ้าผู้ใช้ยังไม่ได้เข้าสู่ระบบ */}
               {memoizedUser.length === 0 ? (
                 <>
                   {authen.map((authItem, index) => (
@@ -216,14 +228,15 @@ function ResponsiveAppBar() {
                   ))}
                 </>
               ) : (
+                // ถ้าผู้ใช้เข้าสู่ระบบแล้ว
                 <>
                   {settings.map((setting, index) => (
                     <MenuItem
                       key={index}
                       onClick={
                         setting.title === "ออกจากระบบ"
-                          ? handleLogout
-                          : () => navigate(setting.to)
+                          ? handleLogout // ถ้าผู้ใช้คลิก "ออกจากระบบ"
+                          : () => navigate(setting.to) // เมนูอื่นๆ
                       }
                     >
                       <Typography textAlign="center">
@@ -235,7 +248,7 @@ function ResponsiveAppBar() {
               )}
             </Menu>
           </Box>
-          {/* /User Menu */}
+          {/* /เมนูผู้ใช้ */}
         </Toolbar>
       </Container>
     </AppBar>

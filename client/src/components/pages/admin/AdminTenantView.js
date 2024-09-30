@@ -1,46 +1,35 @@
 import React, { useEffect, useState } from "react";
 import {
-    Box,
-    Typography,
-    Table,
-    TableBody,
-    TableCell,
-    TableContainer,
-    TableHead,
-    TableRow,
-    Paper,
-    IconButton,
-    Button,
-    TextField,
-    Dialog,
-    DialogTitle,
-    DialogContent,
-    DialogActions,
-    Grid
+    Box, Typography, Table, TableBody, TableCell, TableContainer, TableHead, TableRow,
+    Paper, IconButton, Button, TextField, Dialog, DialogTitle, DialogContent, DialogActions, Grid
 } from "@mui/material";
 import { Edit as EditIcon, Delete as DeleteIcon, Check as CheckIcon, Cancel as CancelIcon } from '@mui/icons-material';
 import { toast } from 'react-toastify';
 import { fetchTenants, deleteTenant, updateTenant, updateTenantStatus } from "../../../functions/tenant";
 
 const AdminTenantView = () => {
-    const [tenants, setTenants] = useState([]);
-    const [editingTenant, setEditingTenant] = useState(null);
+    // State variables
+    const [tenants, setTenants] = useState([]); // ข้อมูลผู้เช่าทั้งหมด
+    const [editingTenant, setEditingTenant] = useState(null); // ID ของผู้เช่าที่กำลังแก้ไข
     const [formData, setFormData] = useState({
         name: '', email: '', phone: '', message: '',
         startDate: '', endDate: '', products: []
-    });
-    const [openProductDialog, setOpenProductDialog] = useState(false);
-    const [selectedProducts, setSelectedProducts] = useState([]);
-    const [searchTerm, setSearchTerm] = useState('');
+    }); // ข้อมูลฟอร์มสำหรับแก้ไขผู้เช่า
+    const [openProductDialog, setOpenProductDialog] = useState(false); // สถานะการเปิด/ปิดหน้าต่างแสดงรายละเอียดพื้นที่
+    const [selectedProducts, setSelectedProducts] = useState([]); // พื้นที่ที่เลือกสำหรับแสดงในหน้าต่าง
+    const [searchTerm, setSearchTerm] = useState(''); // คำค้นหาสำหรับกรองข้อมูลผู้เช่า
 
+    // โหลดข้อมูลผู้เช่าเมื่อคอมโพเนนต์ถูกโหลดหรือคำค้นหาเปลี่ยน
     useEffect(() => {
         loadTenants();
     }, [searchTerm]);
 
+    // ฟังก์ชันโหลดข้อมูลผู้เช่า
     const loadTenants = async () => {
         try {
             const { data } = await fetchTenants();
             if (data) {
+                // กรองข้อมูลตามคำค้นหา
                 setTenants(data.filter(tenant =>
                     tenant.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
                     tenant.email.toLowerCase().includes(searchTerm.toLowerCase())
@@ -53,6 +42,7 @@ const AdminTenantView = () => {
         }
     };
 
+    // ฟังก์ชันลบข้อมูลผู้เช่า
     const handleDelete = async (id) => {
         if (window.confirm("Are you sure you want to delete this tenant?")) {
             try {
@@ -65,20 +55,22 @@ const AdminTenantView = () => {
         }
     };
 
+    // ฟังก์ชันเริ่มการแก้ไขข้อมูลผู้เช่า
     const handleEdit = (tenant) => {
         setEditingTenant(tenant.id);
         setFormData({
             ...tenant,
             products: tenant.products.map(p => p.id),
-            startDate: tenant.startDate ? new Date(tenant.startDate).toISOString().split('T')[0] : '', // Format as YYYY-MM-DD
-            endDate: tenant.endDate ? new Date(tenant.endDate).toISOString().split('T')[0] : '' // Format as YYYY-MM-DD
+            startDate: tenant.startDate ? new Date(tenant.startDate).toISOString().split('T')[0] : '',
+            endDate: tenant.endDate ? new Date(tenant.endDate).toISOString().split('T')[0] : ''
         });
     };
 
+    // ฟังก์ชันอัปเดตข้อมูลผู้เช่า
     const handleUpdate = async () => {
         try {
-            const formattedStartDate = new Date(formData.startDate).toISOString().split('T')[0]; // Format as YYYY-MM-DD
-            const formattedEndDate = new Date(formData.endDate).toISOString().split('T')[0]; // Format as YYYY-MM-DD
+            const formattedStartDate = new Date(formData.startDate).toISOString().split('T')[0];
+            const formattedEndDate = new Date(formData.endDate).toISOString().split('T')[0];
 
             const updatedFormData = {
                 ...formData,
@@ -96,19 +88,24 @@ const AdminTenantView = () => {
         }
     };
 
+    // ฟังก์ชันรีเซ็ตฟอร์ม
     const resetForm = () => {
         setFormData({ name: '', email: '', phone: '', message: '', startDate: '', endDate: '', products: [] });
     };
 
+    // ฟังก์ชันจัดการการเปลี่ยนแปลงในฟอร์ม
     const handleChange = (e) => setFormData({ ...formData, [e.target.name]: e.target.value });
 
+    // ฟังก์ชันแสดงรายละเอียดพื้นที่
     const handleViewProducts = (products) => {
         setSelectedProducts(products);
         setOpenProductDialog(true);
     };
 
+    // ฟังก์ชันค้นหา
     const handleSearch = () => setSearchTerm(searchTerm.trim());
 
+    // ฟังก์ชันอัปเดตสถานะผู้เช่า
     const updateTenantStatusHandler = async (id, status) => {
         try {
             const { data } = await updateTenantStatus(id, status);
@@ -127,6 +124,7 @@ const AdminTenantView = () => {
         }
     };
 
+    // ฟังก์ชันแสดงรายละเอียดพื้นที่
     const renderProductDetails = (products) => (
         <Box display="flex" justifyContent="center">
             <Grid container spacing={2} justifyContent="center">
@@ -157,11 +155,13 @@ const AdminTenantView = () => {
         </Box>
     );
 
+    // ส่วนการแสดงผล
     return (
         <Box p={4}>
             <Typography variant="h4" gutterBottom>
                 ข้อมูลแบบฟอร์ม
             </Typography>
+            {/* ส่วนค้นหา */}
             <Box display="flex" justifyContent="center" sx={{ marginBottom: '20px' }}>
                 <TextField
                     label="ค้นหา"
@@ -180,6 +180,7 @@ const AdminTenantView = () => {
                     ค้นหา
                 </Button>
             </Box>
+            {/* ส่วนแก้ไขข้อมูล */}
             {editingTenant ? (
                 <Box component="form" onSubmit={handleUpdate} sx={{ mb: 2 }}>
                     <Typography variant="h6">แก้ไขข้อมูลแบบฟอร์ม</Typography>
@@ -200,7 +201,7 @@ const AdminTenantView = () => {
                             key={field}
                             name={field}
                             label={field.charAt(0).toUpperCase() + field.slice(1)}
-                            type="date"  // เปลี่ยนจาก datetime-local เป็น date
+                            type="date"
                             fullWidth
                             margin="normal"
                             value={formData[field]}
@@ -214,6 +215,7 @@ const AdminTenantView = () => {
                     </Button>
                 </Box>
             ) : (
+                // ส่วนแสดงตารางข้อมูล
                 <TableContainer component={Paper}>
                     <Table>
                         <TableHead>
@@ -274,6 +276,7 @@ const AdminTenantView = () => {
                     </Table>
                 </TableContainer>
             )}
+            {/* หน้าต่างแสดงรายละเอียดพื้นที่ */}
             <Dialog open={openProductDialog} onClose={() => setOpenProductDialog(false)} maxWidth="md" fullWidth>
                 <DialogTitle>รายละเอียดพื้นที่</DialogTitle>
                 <DialogContent>{renderProductDetails(selectedProducts)}</DialogContent>

@@ -2,6 +2,7 @@ const { PrismaClient } = require('@prisma/client');
 const prisma = new PrismaClient();
 const fs = require('fs');
 
+// ฟังก์ชันสำหรับดึงข้อมูลพื้นที่ตาม id
 exports.read = async (req, res) => {
     try {
         const id = req.params.id;
@@ -15,6 +16,7 @@ exports.read = async (req, res) => {
     }
 };
 
+// ฟังก์ชันสำหรับดึงรายการพื้นที่ทั้งหมด
 exports.list = async (req, res) => {
     try {
         const products = await prisma.product.findMany();
@@ -25,6 +27,7 @@ exports.list = async (req, res) => {
     }
 };
 
+// ฟังก์ชันสำหรับดึงรายการพื้นที่ตามการจัดเรียงและจำกัดจำนวน
 exports.listby = async (req, res) => {
     try {
         const { limit, sort, order } = req.body;
@@ -39,6 +42,7 @@ exports.listby = async (req, res) => {
     }
 };
 
+// ฟังก์ชันสำหรับสร้างพื้นที่ใหม่
 exports.create = async (req, res) => {
     try {
         const data = {
@@ -58,6 +62,7 @@ exports.create = async (req, res) => {
     }
 };
 
+// ฟังก์ชันสำหรับอัปเดตข้อมูลพื้นที่
 exports.update = async (req, res) => {
     try {
         const id = req.params.id;
@@ -89,6 +94,7 @@ exports.update = async (req, res) => {
     }
 };
 
+// ฟังก์ชันสำหรับลบพื้นที่
 exports.remove = async (req, res) => {
     try {
         const id = req.params.id;
